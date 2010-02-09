@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.jkva.makebuilder</groupId>
+        <artifactId>makebuilder-root</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>makebuilder-test</artifactId>
+    <name>MakeBuilder - Test project</name>
+    <description>
+        Test project for MakeBuilder. This has explicitly been put into a
+        separate project because of the two-part lifecycle with code generation.
+
+        1 The Annotation Processor needs to be built.
+        2 The Annotation Processor needs to process any annotations on immutable
+        types and generate the appropriate implementations and builder classes.
+    </description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${basedir}/target/generated-sources"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <verbose>true</verbose>
+                    <compilerArguments>
+                        <s>${basedir}/target/generated-sources</s>
+                    </compilerArguments>
+                </configuration>
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.jkva.makebuilder</groupId>-->
+                        <!--<artifactId>makebuilder-core</artifactId>-->
+                        <!--<version>${parent.version}</version>-->
+                        <!--<scope>compile</scope>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<id>generate-builders</id>-->
+            <!--&lt;!&ndash;<dependencyManagement>&ndash;&gt;-->
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.jkva.makebuilder</groupId>-->
+                        <!--<artifactId>makebuilder-core</artifactId>-->
+                        <!--<version>${parent.version}</version>-->
+                        <!--<scope>compile</scope>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
+            <!--&lt;!&ndash;</dependencyManagement>&ndash;&gt;-->
+        <!--</profile>-->
+    <!--</profiles>-->
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jkva.makebuilder</groupId>
+            <artifactId>makebuilder-annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jkva.makebuilder</groupId>
+            <artifactId>makebuilder-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>1.6</version>
+        </dependency>
+    </dependencies>
+</project>
