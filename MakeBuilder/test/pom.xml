@@ -33,7 +33,7 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <mkdir dir="${basedir}/target/generated-sources"/>
+                                <mkdir dir="${basedir}/target/generated-sources/builder"/>
                             </tasks>
                         </configuration>
                     </execution>
@@ -45,13 +45,13 @@
                 <configuration>
                     <verbose>true</verbose>
                     <compilerArguments>
-                        <s>${basedir}/target/generated-sources</s>
+                        <s>${basedir}/target/generated-sources/builder</s>
                     </compilerArguments>
                 </configuration>
                 <!--<dependencies>-->
                     <!--<dependency>-->
-                        <!--<groupId>org.jkva.makebuilder</groupId>-->
-                        <!--<artifactId>makebuilder-core</artifactId>-->
+                        <!--<groupId>org.jkva.runnerupId>-->
+                        <!--<artifactId>runner-core</artifactId>-->
                         <!--<version>${parent.version}</version>-->
                         <!--<scope>compile</scope>-->
                     <!--</dependency>-->
@@ -66,8 +66,8 @@
             <!--&lt;!&ndash;<dependencyManagement>&ndash;&gt;-->
                 <!--<dependencies>-->
                     <!--<dependency>-->
-                        <!--<groupId>org.jkva.makebuilder</groupId>-->
-                        <!--<artifactId>makebuilder-core</artifactId>-->
+                        <!--<groupId>org.jkva.runnerupId>-->
+                        <!--<artifactId>runner-core</artifactId>-->
                         <!--<version>${parent.version}</version>-->
                         <!--<scope>compile</scope>-->
                     <!--</dependency>-->
