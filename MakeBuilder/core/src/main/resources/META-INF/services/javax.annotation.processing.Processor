@@ -1,1 +1,1 @@
-nl.jkva.builder.BuilderGeneratorProcessor
+org.jkva.makebuilder.core.BuilderGeneratorProcessor
