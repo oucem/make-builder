@@ -21,11 +21,13 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-import javax.annotation.processing.Filer;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -38,26 +40,58 @@ public class FreeMarkerClassWriterImpl implements ClassWriter {
 
     private Configuration freeMarkerConfiguration;
 
+    private Map<String, Object> createRootMap(SuperClassInfo superClassInfo, ClassProperty[] properties, ProcessingEnvironment processingEnv) {
+        Map<String, Object> root = new HashMap<String, Object>();
+        String superClassQName = superClassInfo.qualifiedName;
+
+        String superClassSimpleName = superClassQName.substring(superClassQName.lastIndexOf('.') + 1);
+        String targetPackage = processingEnv.getOptions().get(MBAttributes.TARGET_PACKAGE_ATTR);
+        if (targetPackage == null || targetPackage.trim().equals("")) {
+            targetPackage = "org.jkva.makebuilder.generated";
+        }
+
+        int idx = superClassQName.lastIndexOf('.') + 1;
+        String implClassQName = targetPackage + '.' + superClassQName.substring(idx) + "Impl";
+        String implClassSimpleName = implClassQName.substring(implClassQName.lastIndexOf('.') + 1);
+        String builderClassQName = targetPackage + '.' + superClassQName.substring(idx) + "BuilderImpl";
+        String builderClassSimpleName = builderClassQName.substring(builderClassQName.lastIndexOf('.') + 1);
+
+        root.put("targetPackage", targetPackage);
+        root.put("superClassQName", superClassQName);
+        root.put("superClassSimpleName", superClassSimpleName);
+        root.put("implClassQName", implClassQName);
+        root.put("implClassSimpleName", implClassSimpleName);
+        root.put("builderClassQName", builderClassQName);
+        root.put("builderClassSimpleName", builderClassSimpleName);
+        root.put("properties", Arrays.asList(properties));
+        root.put("generatorClass", MakeBuilderProcessor.class);
+
+        return root;
+    }
+
     /**
      * Generate implementation for this immutable type.
      *
-     * @param filer The Filer used to generate the sources.
-     * @param propertyMap The map with properties used to generate the class.
+     * @param superClassInfo The superclass metadata.
+     * @param properties The properties that needs getters and setters.
+     * @param processingEnv The current processing environment.
      */
     @Override
-    public void generateImpl(Map<String, Object> propertyMap, Filer filer) {
+    public void generateImpl(SuperClassInfo superClassInfo, ClassProperty[] properties, ProcessingEnvironment processingEnv) {
+        Map<String, Object> rootMap = createRootMap(superClassInfo, properties, processingEnv);
+
         Writer writer = null;
         try {
             initializeFreeMarker();
 
-            String classQName = (String) propertyMap.get("implClassQName");
+            String classQName = (String) rootMap.get("implClassQName");
 //            String classSimpleName = propertyMap.implClassSimpleName;
 
             Template template = freeMarkerConfiguration.getTemplate("objectImpl.ftl");
             StringWriter strWtr = new StringWriter();
-            template.process(propertyMap, strWtr);
+            template.process(rootMap, strWtr);
 
-            JavaFileObject sourceFile = filer.createSourceFile(classQName);
+            JavaFileObject sourceFile = processingEnv.getFiler().createSourceFile(classQName);
             writer = sourceFile.openWriter();
             writer.write(strWtr.toString());
             writer.close();
@@ -77,24 +111,27 @@ public class FreeMarkerClassWriterImpl implements ClassWriter {
     }
 
     /**
-     * Generate annotations class for this immutable type.
+     * Generate builder class for this immutable type.
      *
-     * @param filer The Filer used to generate the sources.
-     * @param propertyMap The map with properties used to generate the class.
+     * @param superClassInfo The superclass metadata.
+     * @param properties The properties that needs getters and setters.
+     * @param processingEnv The current processing environment.
      */
     @Override
-    public void generateBuilder(Map<String, Object> propertyMap, Filer filer) {
+    public void generateBuilder(SuperClassInfo superClassInfo, ClassProperty[] properties, ProcessingEnvironment processingEnv) {
+        Map<String, Object> rootMap = createRootMap(superClassInfo, properties, processingEnv);
+
         Writer writer = null;
         try {
             initializeFreeMarker();
 
-            String classQName = (String) propertyMap.get("builderClassQName");
+            String classQName = (String) rootMap.get("builderClassQName");
 
             Template template = freeMarkerConfiguration.getTemplate("builder.ftl");
             StringWriter strWtr = new StringWriter();
-            template.process(propertyMap, strWtr);
+            template.process(rootMap, strWtr);
 
-            JavaFileObject sourceFile = filer.createSourceFile(classQName);
+            JavaFileObject sourceFile = processingEnv.getFiler().createSourceFile(classQName);
             writer = sourceFile.openWriter();
             writer.write(strWtr.toString());
             writer.close();
@@ -119,7 +156,7 @@ public class FreeMarkerClassWriterImpl implements ClassWriter {
     private void initializeFreeMarker() {
         if (freeMarkerConfiguration == null) {
             freeMarkerConfiguration = new Configuration();
-            freeMarkerConfiguration.setClassForTemplateLoading(BuilderGeneratorProcessor.class, "");
+            freeMarkerConfiguration.setClassForTemplateLoading(MakeBuilderProcessor.class, "");
             freeMarkerConfiguration.setObjectWrapper(new DefaultObjectWrapper());
         }
     }
