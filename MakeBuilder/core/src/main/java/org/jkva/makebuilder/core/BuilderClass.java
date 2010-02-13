@@ -20,5 +20,5 @@ package org.jkva.makebuilder.core;
  * $Author$
  * $Revision$
  */
-public class BuilderClass {
+class BuilderClass {
 }

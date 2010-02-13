@@ -26,7 +26,7 @@ import java.util.Set;
  * $Author$
  * $Revision$
  */
-public class MockTypeElement implements TypeElement {
+class MockTypeElement implements TypeElement {
     @Override
     public NestingKind getNestingKind() {
         return null;

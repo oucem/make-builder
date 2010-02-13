@@ -26,7 +26,7 @@ import java.util.Set;
  * $Author$
  * $Revision$
  */
-public class MockRoundEnvironment implements RoundEnvironment {
+class MockRoundEnvironment implements RoundEnvironment {
     @Override
     public boolean processingOver() {
         return false;
