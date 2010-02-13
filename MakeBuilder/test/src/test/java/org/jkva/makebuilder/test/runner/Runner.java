@@ -32,7 +32,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
+ * This runner is used as a simple concurrency test.
  *
+ * $Author$
+ * $Revision$
  */
 public class Runner {
     private static final AtomicReference<Person> P = new AtomicReference<Person>();

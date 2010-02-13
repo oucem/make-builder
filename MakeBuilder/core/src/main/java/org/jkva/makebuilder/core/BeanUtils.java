@@ -17,7 +17,10 @@
 package org.jkva.makebuilder.core;
 
 /**
+ * Utility for JavaBean operations.
  *
+ * $Author$
+ * $Revision$
  */
 public class BeanUtils {
     /**

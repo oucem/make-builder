@@ -30,10 +30,13 @@ import java.util.Map;
 
 /**
  * FreeMarker implementation of the class writer.
+ *
+ * $Author$
+ * $Revision$
  */
 public class FreeMarkerClassWriterImpl implements ClassWriter {
 
-    private Configuration freemarkerConfiguration;
+    private Configuration freeMarkerConfiguration;
 
     /**
      * Generate implementation for this immutable type.
@@ -45,12 +48,12 @@ public class FreeMarkerClassWriterImpl implements ClassWriter {
     public void generateImpl(Map<String, Object> propertyMap, Filer filer) {
         Writer writer = null;
         try {
-            initializeFreemarker();
+            initializeFreeMarker();
 
             String classQName = (String) propertyMap.get("implClassQName");
 //            String classSimpleName = propertyMap.implClassSimpleName;
 
-            Template template = freemarkerConfiguration.getTemplate("objectImpl.ftl");
+            Template template = freeMarkerConfiguration.getTemplate("objectImpl.ftl");
             StringWriter strWtr = new StringWriter();
             template.process(propertyMap, strWtr);
 
@@ -83,11 +86,11 @@ public class FreeMarkerClassWriterImpl implements ClassWriter {
     public void generateBuilder(Map<String, Object> propertyMap, Filer filer) {
         Writer writer = null;
         try {
-            initializeFreemarker();
+            initializeFreeMarker();
 
             String classQName = (String) propertyMap.get("builderClassQName");
 
-            Template template = freemarkerConfiguration.getTemplate("builder.ftl");
+            Template template = freeMarkerConfiguration.getTemplate("builder.ftl");
             StringWriter strWtr = new StringWriter();
             template.process(propertyMap, strWtr);
 
@@ -113,11 +116,11 @@ public class FreeMarkerClassWriterImpl implements ClassWriter {
     /**
      * Create a FreeMarker configuration.
      */
-    private void initializeFreemarker() {
-        if (freemarkerConfiguration == null) {
-            freemarkerConfiguration = new Configuration();
-            freemarkerConfiguration.setClassForTemplateLoading(BuilderGeneratorProcessor.class, "");
-            freemarkerConfiguration.setObjectWrapper(new DefaultObjectWrapper());
+    private void initializeFreeMarker() {
+        if (freeMarkerConfiguration == null) {
+            freeMarkerConfiguration = new Configuration();
+            freeMarkerConfiguration.setClassForTemplateLoading(BuilderGeneratorProcessor.class, "");
+            freeMarkerConfiguration.setObjectWrapper(new DefaultObjectWrapper());
         }
     }
 
