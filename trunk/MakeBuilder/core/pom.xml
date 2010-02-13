@@ -87,12 +87,14 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>2.3.15</version>
         </dependency>
         <dependency>
             <groupId>org.jkva.makebuilder</groupId>
             <artifactId>makebuilder-annotations</artifactId>
-            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
 </project>

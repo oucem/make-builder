@@ -23,10 +23,11 @@ package org.jkva.makebuilder.core;
  * $Revision$
  */
 public class BeanUtils {
+
     /**
      * A valid getter method must start with one of these prefixes.
      */
-    static final String[] GETTER_PREFIXES = new String[] { "get", "is", "has" };
+    static final String[] GETTER_PREFIXES = new String[] { "get", "is" };
 
     /**
      * Determine if the given methodName corresponds to a property and if it does,
@@ -58,10 +59,11 @@ public class BeanUtils {
 
     /**
      * Check to see if the given methodSignature is really a method we can process.
+     *
      * @param methodSignature The method signature.
      * @return true if methodSignature could be a valid method, false otherwise.
      */
-    static boolean couldBeAMethod(final String methodSignature) {
+    static boolean couldBeAGetterMethod(final String methodSignature) {
         return methodSignature.contains("()");
     }
 

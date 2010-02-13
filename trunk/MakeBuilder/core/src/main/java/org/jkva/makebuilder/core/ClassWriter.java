@@ -17,6 +17,7 @@
 package org.jkva.makebuilder.core;
 
 import javax.annotation.processing.Filer;
+import javax.annotation.processing.ProcessingEnvironment;
 import java.util.Map;
 
 /**
@@ -30,16 +31,18 @@ public interface ClassWriter {
     /**
      * Generate a valid implementation Java source file for the given immutable type.
      *
-     * @param rootMap The attributes used when generating the source file.
-     * @param filer The filer object that writes the file to the file system.
+     * @param superClassInfo The superclass metadata.
+     * @param properties The properties that needs getters and setters.
+     * @param processingEnv The current processing environment.
      */
-    void generateImpl(Map<String, Object> rootMap, Filer filer);
+    void generateImpl(SuperClassInfo superClassInfo, ClassProperty[] properties, ProcessingEnvironment processingEnv);
 
     /**
      * Generate a valid implementation Java source file for the given immutable type.
      *
-     * @param rootMap The attributes used when generating the source file.
-     * @param filer The filer object that writes the file to the file system.
+     * @param superClassInfo The superclass metadata.
+     * @param properties The properties that needs getters and setters.
+     * @param processingEnv The current processing environment.
      */
-    void generateBuilder(Map<String, Object> rootMap, Filer filer);
+    void generateBuilder(SuperClassInfo superClassInfo, ClassProperty[] properties, ProcessingEnvironment processingEnv);
 }
