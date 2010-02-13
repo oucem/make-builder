@@ -24,11 +24,10 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Jan-Kees
- * Date: 1-nov-2009
- * Time: 15:04:41
- * To change this template use File | Settings | File Templates.
+ * A company object with some special types for testing.
+ *
+ * $Author$
+ * $Revision$
  */
 @Immutable
 public interface Company extends ImmutableObject<Company> {

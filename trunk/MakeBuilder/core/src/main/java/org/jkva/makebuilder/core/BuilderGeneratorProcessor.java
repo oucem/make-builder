@@ -19,6 +19,7 @@ package org.jkva.makebuilder.core;
 import org.jkva.makebuilder.annotations.Immutable;
 
 import javax.annotation.processing.*;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.*;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.ExecutableType;
@@ -31,9 +32,12 @@ import java.util.*;
 /**
  * Annotation processor for {Immutable} classes. For classes annotated with
  * {Immutable}, a Builder will be generated.
+ *
+ * $Author$
+ * $Revision$
  */
 @SupportedAnnotationTypes("org.jkva.makebuilder.annotations.Immutable")
-@SupportedSourceVersion(javax.lang.model.SourceVersion.RELEASE_6)
+@SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class BuilderGeneratorProcessor extends AbstractProcessor {
 
 

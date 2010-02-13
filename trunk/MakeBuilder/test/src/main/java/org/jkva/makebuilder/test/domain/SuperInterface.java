@@ -20,6 +20,9 @@ import org.jkva.makebuilder.annotations.Immutable;
 
 /**
  * This super interface is used to test type hierarchies.
+ *
+ * $Author$
+ * $Revision$
  */
 @Immutable(generateBuilder = false)
 public interface SuperInterface {

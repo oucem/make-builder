@@ -20,6 +20,9 @@ package org.jkva.makebuilder.annotations;
  * Defines the contract for immutable objects.
  * <p/>
  * An immutable object shoud be able to return a annotations object for itself.
+ *
+ * $Author$
+ * $Revision$
  */
 public interface ImmutableObject<OBJECT extends ImmutableObject> {
     /**

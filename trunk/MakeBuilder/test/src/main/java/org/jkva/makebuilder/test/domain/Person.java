@@ -23,7 +23,10 @@ import org.jkva.makebuilder.annotations.ObjectBuilder;
 import java.util.Date;
 
 /**
+ * Test object with many properties, used for API polishing.
  *
+ * $Author$
+ * $Revision$
  */
 @Immutable
 public interface Person extends ImmutableObject<Person> {

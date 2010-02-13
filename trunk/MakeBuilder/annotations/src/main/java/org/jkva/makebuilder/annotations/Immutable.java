@@ -19,11 +19,12 @@ package org.jkva.makebuilder.annotations;
 import java.lang.annotation.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Jan-Kees
- * Date: 31-okt-2009
- * Time: 20:05:18
- * To change this template use File | Settings | File Templates.
+ * Marker annotation for immutable types.
+ *
+ * Types annotated with this annotation will be processed by MakeBuilder.
+ *
+ * $Author$
+ * $Revision$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(java.lang.annotation.ElementType.TYPE)
