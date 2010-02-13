@@ -22,7 +22,7 @@ package org.jkva.makebuilder.core;
  * $Author$
  * $Revision$
  */
-public class MBAttributes {
+class MBAttributes {
 
     /**
      * The attribute name used to specify the package to put the generated classes.

@@ -22,12 +22,12 @@ package org.jkva.makebuilder.core;
  * $Author$
  * $Revision$
  */
-public class BeanUtils {
+class BeanUtils {
 
     /**
      * A valid getter method must start with one of these prefixes.
      */
-    static final String[] GETTER_PREFIXES = new String[] { "get", "is" };
+    private static final String[] GETTER_PREFIXES = new String[] { "get", "is" };
 
     /**
      * Determine if the given methodName corresponds to a property and if it does,
