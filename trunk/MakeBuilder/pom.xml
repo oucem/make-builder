@@ -101,9 +101,8 @@
     </dependencyManagement>
 
     <scm>
-        <connection>scm:svn:http://make-builder.googlecode.com/svn/tags/makebuilder-root-1.0</connection>
-        <developerConnection>scm:svn:https://make-builder.googlecode.com/svn/tags/makebuilder-root-1.0</developerConnection>
-        <url>http://code.google.com/p/make-builder/tags/makebuilder-root-1.0</url>
+        <connection>scm:svn:http://make-builder.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://make-builder.googlecode.com/svn/trunk</developerConnection>
     </scm>
 
 </project>
