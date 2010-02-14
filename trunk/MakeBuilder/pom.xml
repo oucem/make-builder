@@ -47,8 +47,15 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-    </build>
 
+        <extensions>
+            <extension>
+                <groupId>org.jvnet.wagon-svn</groupId>
+                <artifactId>wagon-svn</artifactId>
+                <version>1.9</version>
+            </extension>
+        </extensions>
+    </build>
     <dependencyManagement>
         <dependencies>
             <!-- Module dependencies -->
@@ -99,6 +106,21 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <distributionManagement>
+        <!-- use the following if you're not using a snapshot version. -->
+        <repository>
+            <id>googlecode.releases</id>
+            <name>Google Code Releases</name>
+            <url>svn:https://make-builder.googlecode.com/svn/releases</url>
+        </repository>
+        <!-- use the following if you ARE using a snapshot version. -->
+        <snapshotRepository>
+            <id>googlecode.shapshots</id>
+            <name>Google Code Snapshots</name>
+            <url>svn:https://make-builder.googlecode.com/svn/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <scm>
         <connection>scm:svn:http://make-builder.googlecode.com/svn/trunk</connection>
