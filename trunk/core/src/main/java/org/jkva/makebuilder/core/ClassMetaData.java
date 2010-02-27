@@ -27,10 +27,12 @@ import java.util.Arrays;
 public class ClassMetaData {
     private final SuperClassInfo superClassInfo;
     private final ClassProperty[] properties;
+    private final boolean isInterface;
 
-    public ClassMetaData(SuperClassInfo superClassInfo, ClassProperty[] properties) {
+    public ClassMetaData(SuperClassInfo superClassInfo, ClassProperty[] properties, boolean isInterface) {
         this.superClassInfo = superClassInfo;
         this.properties = properties;
+        this.isInterface = isInterface;
     }
 
     public SuperClassInfo getSuperClassInfo() {
@@ -39,5 +41,9 @@ public class ClassMetaData {
 
     public ClassProperty[] getProperties() {
         return Arrays.copyOf(properties, properties.length);
+    }
+
+    public boolean isInterface() {
+        return isInterface;
     }
 }
