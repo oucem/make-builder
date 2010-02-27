@@ -97,8 +97,23 @@ public class DefaultClassParserImpl implements ClassParser {
     public ClassMetaData readMetaData(TypeElement element) {
         final SuperClassInfo superClassInfo = determineSuperClass(element);
         final ClassProperty[] properties = listProperties(element);
+        final boolean isInterface = isInterface(element);
 
-        return new ClassMetaData(superClassInfo, properties);
+        return new ClassMetaData(superClassInfo, properties, isInterface);
+    }
+
+    private boolean isInterface(TypeElement element) {
+        ObjectWrapper<Boolean> wrapper = new ObjectWrapper<Boolean>(false);
+
+        element.asType().accept(new SimpleTypeVisitor6<Void, ObjectWrapper<Boolean>>() {
+            @Override
+            public Void visitDeclared(DeclaredType t, ObjectWrapper<Boolean> result) {
+                result.set(t.asElement().getKind().equals(ElementKind.INTERFACE));
+                return null;
+            }
+        }, wrapper);
+
+        return wrapper.get();
     }
 
     /**
@@ -183,5 +198,21 @@ public class DefaultClassParserImpl implements ClassParser {
         }
 
         return properties;
+    }
+
+    private class ObjectWrapper<T> {
+        private T wrapped;
+
+        private ObjectWrapper(T wrapped) {
+            this.wrapped = wrapped;
+        }
+
+        private T get() {
+            return this.wrapped;
+        }
+
+        private void set(T wrapped) {
+            this.wrapped = wrapped;
+        }
     }
 }

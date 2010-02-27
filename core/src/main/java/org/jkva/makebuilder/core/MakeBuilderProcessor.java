@@ -16,12 +16,14 @@
 
 package org.jkva.makebuilder.core;
 
+import com.sun.tools.javac.processing.JavacProcessingEnvironment;
 import org.jkva.makebuilder.annotations.Immutable;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.*;
 import javax.tools.Diagnostic;
+import java.lang.annotation.Annotation;
 import java.util.*;
 
 /**
@@ -33,7 +35,7 @@ import java.util.*;
  * $Author$
  * $Revision$
  */
-@SupportedAnnotationTypes("org.jkva.makebuilder.annotations.Immutable")
+@SupportedAnnotationTypes({"org.jkva.makebuilder.annotations.Immutable", MakeBuilderProcessor.JCIP_IMMUTABLE})
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class MakeBuilderProcessor extends AbstractProcessor {
 
@@ -48,6 +50,14 @@ public class MakeBuilderProcessor extends AbstractProcessor {
     private final ClassWriter classWriter;
 
     /**
+     * The name of the Java Concurrency in Practice type that
+     * defines the Immutable annotation.
+     */
+    public static final String JCIP_IMMUTABLE = "net.jcip.annotations.Immutable";
+
+    private FancyFeaturesHelper fancyFeaturesHelper;
+
+    /**
      * Default constructor, used in production.
      */
     public MakeBuilderProcessor() {
@@ -56,7 +66,7 @@ public class MakeBuilderProcessor extends AbstractProcessor {
     }
 
     /**
-     * Only used in test.
+     * Only used for testing.
      *
      * @param classParser The user specified ClassParser.
      * @param classWriter The user specified ClassWriter.
@@ -66,19 +76,66 @@ public class MakeBuilderProcessor extends AbstractProcessor {
         this.classWriter = classWriter;
     }
 
+    @Override
+    public void init(ProcessingEnvironment processingEnv) {
+        super.init(processingEnv);
+        System.out.println("processingEnv = " + processingEnv);
+        if (processingEnv instanceof JavacProcessingEnvironment) {
+            fancyFeaturesHelper = new SunFancyFeaturesHelper((JavacProcessingEnvironment) processingEnv);
+        }
+    }
+
     /** {@inheritDoc} */
     @Override
     public boolean process(final Set<? extends TypeElement> annotations, final RoundEnvironment env) {
         for (final TypeElement type : annotations) {
             for (final Element element : env.getElementsAnnotatedWith(type)) {
-                final Immutable immutable = element.getAnnotation(Immutable.class);
-                if (immutable != null
-                 && immutable.generateBuilder()) {
+                if (shouldProcessType(element)) {
                     generate((TypeElement) element, processingEnv);
                 }
             }
         }
         return true;
+    }
+
+    /**
+     * Determine if the current element should be processed by the processor.
+     *
+     * @param element The current element.
+     * @return <code>true</code> if this element should be processed, <code>false</code> otherwise.
+     */
+    private boolean shouldProcessType(Element element) {
+        final Immutable immutable = element.getAnnotation(Immutable.class);
+        if (immutable != null && immutable.generateBuilder()) {
+            return true;
+        }
+
+        if (jcipAnnotationsOnType(element)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if the current element is annotated with a JCiP annotation.
+     *
+     * @param element The current element.
+     * @return <code>true</code> if this element is annotated with a JCiP Immutable annotation,
+     *         <code>false</code> otherwise.
+     */
+    private boolean jcipAnnotationsOnType(Element element) {
+        try {
+            @SuppressWarnings({"unchecked"}) Class<? extends Annotation> jcipImmutableClass =
+                    (Class<? extends Annotation>) Class.forName(JCIP_IMMUTABLE);
+
+            return element.getAnnotation(jcipImmutableClass) != null;
+        } catch (Exception e) {
+            processingEnv.getMessager().printMessage(
+                    Diagnostic.Kind.ERROR,
+                    "JCiP annotations are not processed. Reason: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -90,8 +147,12 @@ public class MakeBuilderProcessor extends AbstractProcessor {
     private void generate(final TypeElement element, final ProcessingEnvironment processingEnv) {
         ClassMetaData classMetaData = classParser.readMetaData(element);
 
-        classWriter.generateImpl(classMetaData.getSuperClassInfo(), classMetaData.getProperties(), processingEnv);
-        classWriter.generateBuilder(classMetaData.getSuperClassInfo(), classMetaData.getProperties(), processingEnv);
+        if (classMetaData.isInterface()) {
+            classWriter.generateImpl(classMetaData.getSuperClassInfo(), classMetaData.getProperties(), processingEnv);
+            classWriter.generateBuilder(classMetaData.getSuperClassInfo(), classMetaData.getProperties(), processingEnv);
+        } else {
+            fancyFeaturesHelper.addMethod(new GeneratedMethod(), element);
+        }
     }
 
 }
