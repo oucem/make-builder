@@ -23,6 +23,7 @@ package org.jkva.makebuilder.annotations;
  *
  * $Author$
  * $Revision$
+ * @deprecated
  */
 public interface ImmutableObject<OBJECT extends ImmutableObject> {
     /**
