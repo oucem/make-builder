@@ -35,7 +35,7 @@ import java.util.*;
  * $Author$
  * $Revision$
  */
-@SupportedAnnotationTypes({"org.jkva.makebuilder.annotations.Immutable", MakeBuilderProcessor.JCIP_IMMUTABLE})
+@SupportedAnnotationTypes({"org.jkva.makebuilder.annotations.Immutable", MakeBuilderProcessor.JCIP_IMMUTABLE} )
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class MakeBuilderProcessor extends AbstractProcessor {
 
@@ -149,7 +149,6 @@ public class MakeBuilderProcessor extends AbstractProcessor {
 
         if (classMetaData.isInterface()) {
             classWriter.generateImpl(classMetaData.getSuperClassInfo(), classMetaData.getProperties(), processingEnv);
-            classWriter.generateBuilder(classMetaData.getSuperClassInfo(), classMetaData.getProperties(), processingEnv);
         } else {
             fancyFeaturesHelper.addMethod(new GeneratedMethod(), element);
         }

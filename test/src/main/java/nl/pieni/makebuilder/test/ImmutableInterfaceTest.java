@@ -1,6 +1,8 @@
 package nl.pieni.makebuilder.test;
 
-import org.jkva.makebuilder.annotations.Immutable;
+import net.jcip.annotations.Immutable;
+import org.jkva.makebuilder.annotations.Required;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,6 +17,7 @@ public interface ImmutableInterfaceTest {
      * This value represents the ID of the thinggy
      * @return
      */
+    @Required
     long getId();
 
     String getName();

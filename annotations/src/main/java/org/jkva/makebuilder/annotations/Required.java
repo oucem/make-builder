@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Jan-Kees van Andel.
+ * Copyright (C) 2010 Pieter van der Meer.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jkva.makebuilder.annotations;
 
-/**
- * Useful interface for typesafe builder methods.
- *
- * $Author$
- * $Revision$
- * @deprecated
- */
-public interface ObjectBuilder<T extends ImmutableObject> {
-    public T build();
+import java.lang.annotation.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(java.lang.annotation.ElementType.METHOD)
+@Documented
+@Inherited
+public @interface Required {
 }
