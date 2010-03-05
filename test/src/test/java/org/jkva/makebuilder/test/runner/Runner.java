@@ -16,11 +16,10 @@
 
 package org.jkva.makebuilder.test.runner;
 
+import nl.pieni.makebuilder.test.ImmutableInterfaceTest;
+import nl.pieni.makebuilder.test.ImmutableInterfaceTestImpl;
 import org.jkva.makebuilder.generated.*;
-import org.jkva.makebuilder.test.domain.Address;
-import org.jkva.makebuilder.test.domain.Company;
-import org.jkva.makebuilder.test.domain.Country;
-import org.jkva.makebuilder.test.domain.Person;
+import org.jkva.makebuilder.test.domain.*;
 
 import java.util.Date;
 import java.util.Random;
@@ -212,5 +211,9 @@ public class Runner {
 
         setUpData.random = new Random();
         return setUpData;
+    }
+
+    public void test() {
+        ImmutableInterfaceTest xx = new ImmutableInterfaceTestImpl.Builder().id("");
     }
 }

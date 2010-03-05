@@ -16,7 +16,7 @@
 package ${targetPackage};
 
 @javax.annotation.Generated("${generatorClass}")
-public final class ${builderClassSimpleName} implements org.jkva.makebuilder.annotations.ObjectBuilder<${superClassQName}> {
+public final class ${builderClassSimpleName} implements ${superClassQName} {
 
 <#list properties as property>
 private ${property.type} ${property.name};
