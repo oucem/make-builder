@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2010 Jan-Kees van Andel.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.jkva.makebuilder</groupId>
+        <artifactId>makebuilder-root</artifactId>
+        <version>1.1-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>makebuilder-core</artifactId>
+    <name>MakeBuilder - Core component</name>
+    <description>
+        This project contains the code for the MakeBuilder component.
+        It is deployed as a JAR file.
+
+        Usage, add the MakeBuilder JAR to the compiler classpath and run the compiler.
+
+        Or in Maven:
+        &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-antrun-plugin&lt;/artifactId&gt;
+        &lt;executions&gt;
+        &lt;execution&gt;
+        &lt;phase&gt;generate-sources&lt;/phase&gt;
+        &lt;goals&gt;
+        &lt;goal&gt;run&lt;/goal&gt;
+        &lt;/goals&gt;
+        &lt;configuration&gt;
+        &lt;tasks&gt;
+        &lt;mkdir dir="${basedir}/target/generated-sources"/&gt;
+        &lt;/tasks&gt;
+        &lt;/configuration&gt;
+        &lt;/execution&gt;
+        &lt;/executions&gt;
+        &lt;/plugin&gt;
+        &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+        &lt;configuration&gt;
+        &lt;verbose&gt;true&lt;/verbose&gt;
+        &lt;!--fork&gt;true&lt;/fork--&gt;
+        &lt;compilerArguments&gt;
+        &lt;s&gt;${basedir}/target/generated-sources&lt;/s&gt;
+        &lt;/compilerArguments&gt;
+        &lt;/configuration&gt;
+        &lt;/plugin&gt;
+
+        Yeah, I know it's annoying to specify the antrun plugin, but the compiler doesn't generate the
+        necessary directories by itself.
+        TODO: Add a Maven plugin which does this for you.
+
+    </description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <verbose>true</verbose>
+                    <compilerArgument>
+                        -proc:none
+                    </compilerArgument>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>default-tools.jar</id>
+            <activation>
+                <property>
+                    <name>java.vendor</name>
+                    <value>Sun Microsystems Inc.</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.sun</groupId>
+                    <artifactId>tools</artifactId>
+                    <version>1.4.2</version>
+                    <scope>system</scope>
+                    <systemPath>${java.home}/../lib/tools.jar</systemPath>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jkva.makebuilder</groupId>
+            <artifactId>makebuilder-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+</project>
