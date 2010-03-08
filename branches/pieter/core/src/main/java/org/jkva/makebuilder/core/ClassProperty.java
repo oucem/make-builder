@@ -41,6 +41,13 @@ public final class ClassProperty {
      */
     String setter;
 
+    /**
+     * Indication for required properties.
+     * These properties are identified by the
+     * {@link org.jkva.makebuilder.annotations.Required} @Required annotation.
+     */
+    boolean required;
+
     // ++++++++++++++++++ Used by FreeMarker BEGIN ++++++++++++++++++
 
     /**
@@ -73,6 +80,10 @@ public final class ClassProperty {
      */
     public String getSetter() {
         return setter;
+    }
+
+    public boolean isRequired() {
+        return required;
     }
     // ------------------ Used by FreeMarker END ------------------
 }

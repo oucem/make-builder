@@ -18,10 +18,9 @@ package org.jkva.makebuilder.test.runner;
 
 import nl.pieni.makebuilder.test.ImmutableInterfaceTest;
 import nl.pieni.makebuilder.test.ImmutableInterfaceTestImpl;
-import org.jkva.makebuilder.generated.*;
-import org.jkva.makebuilder.test.domain.*;
+import org.jkva.makebuilder.test.domain.Address;
+import org.jkva.makebuilder.test.domain.Person;
 
-import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -114,29 +113,29 @@ public class Runner {
         }
 
         private void addRandomness() {
-            if (random.nextBoolean()) {
-                P.set(person1);
-            } else {
-                P.set(person2);
-            }
-
-            if (random.nextBoolean()) {
-                P.set(((PersonBuilderImpl)P.get().builder()).setId(-1L).setAddress(new AddressBuilderImpl().build()).build());
-            }
-
-            if (random.nextBoolean()) {
-                P.set(((PersonBuilderImpl)P.get().builder()).setId(-1L).setFirstName("" + random.nextInt()).build());
-            }
-
-            if (random.nextBoolean()) {
-                P.set(((PersonBuilderImpl)P.get().builder()).setId(-1L).setEmployer(new CompanyImpl(1L, "1", address, null, new Date(), null)).build());
-            }
-
-            if (random.nextInt(100) < 10) {
-                P.set(((PersonBuilderImpl)P.get().builder()).setId(1L).build());
-            } else if (random.nextInt(100) < 10) {
-                P.set(((PersonBuilderImpl) P.get().builder()).setId(2L).build());
-            }
+//            if (random.nextBoolean()) {
+//                P.set(person1);
+//            } else {
+//                P.set(person2);
+//            }
+//
+//            if (random.nextBoolean()) {
+//                P.set(((PersonBuilderImpl)P.get().builder()).setId(-1L).setAddress(new AddressBuilderImpl().build()).build());
+//            }
+//
+//            if (random.nextBoolean()) {
+//                P.set(((PersonBuilderImpl)P.get().builder()).setId(-1L).setFirstName("" + random.nextInt()).build());
+//            }
+//
+//            if (random.nextBoolean()) {
+//                P.set(((PersonBuilderImpl)P.get().builder()).setId(-1L).setEmployer(new CompanyImpl(1L, "1", address, null, new Date(), null)).build());
+//            }
+//
+//            if (random.nextInt(100) < 10) {
+//                P.set(((PersonBuilderImpl)P.get().builder()).setId(1L).build());
+//            } else if (random.nextInt(100) < 10) {
+//                P.set(((PersonBuilderImpl) P.get().builder()).setId(2L).build());
+//            }
         }
 
         private void assertion(Person person) {
@@ -177,43 +176,44 @@ public class Runner {
     }
 
     private static SetUpData setUpData() {
-        SetUpData setUpData = new SetUpData();
-        Address addressMe = new AddressBuilderImpl("dummyFromSuperInterface", "Some Street", 2, null, "Some town", Country.NETHERLANDS).build();
-        assert addressMe.getStreet().equals("Some Street");
-
-        addressMe = ((AddressBuilderImpl) addressMe.builder()).setNumber(2).setSuffix("B").build();
-        assert addressMe.getStreet().equals("Some Street");
-        assert addressMe.getNumber() == 2;
-        assert addressMe.getSuffix().equals("B");
-        assert addressMe.getCity().equals("Some Town");
-        assert addressMe.getCountry().equals(Country.NETHERLANDS);
-
-        setUpData.address = new AddressImpl("dummyFromSuperInterface", "Other Street", 12, "A", "Utrecht", Country.NETHERLANDS);
-
-        final Address addressOrdina = new AddressImpl("dummyFromSuperInterface", "Ringwade", 1, null, "Nieuwegein", Country.NETHERLANDS);
-        Company ordina = new CompanyBuilderImpl(1L, "Ordina", addressOrdina, addressOrdina, new Date(), null).build();
-        assert ordina.getId() == 1L;
-        assert ordina.getName().equals("Ordina");
-
-        final Address addressOtherCompany = new AddressImpl("dummyFromSuperInterface", "Street", 1, null, "Utrecht", Country.NETHERLANDS);
-        Company otherCompany = ((CompanyBuilderImpl)ordina.builder()).setId(2L).setName("Yada yada").setAddress(addressOtherCompany).setPostalAddress(addressOtherCompany).build();
-        assert otherCompany.getId() == 2L;
-        assert otherCompany.getName().equals("Yada yada");
-
-        setUpData.person1 = new PersonBuilderImpl().setId(1L).setFirstName("Jan-Kees").setMiddleName("van").setLastName("Andel").setBirthDate(new Date()).setAddress(addressMe).setEmployer(ordina).build();
-        assert setUpData.person1.getFirstName().equals("Jan-Kees");
-
-        setUpData.person2 = new PersonBuilderImpl().setId(2L).setFirstName("FirstName").setLastName("LastName").setBirthDate(new Date()).setAddress(setUpData.address).setEmployer(otherCompany).build();
-        assert setUpData.person2.getFirstName().equals("FirstName");
-
-        P.set(setUpData.person1);
-        setUpData.counter = new AtomicLong(0);
-
-        setUpData.random = new Random();
-        return setUpData;
+//        SetUpData setUpData = new SetUpData();
+//        Address addressMe = new AddressBuilderImpl("dummyFromSuperInterface", "Some Street", 2, null, "Some town", Country.NETHERLANDS).build();
+//        assert addressMe.getStreet().equals("Some Street");
+//
+//        addressMe = ((AddressBuilderImpl) addressMe.builder()).setNumber(2).setSuffix("B").build();
+//        assert addressMe.getStreet().equals("Some Street");
+//        assert addressMe.getNumber() == 2;
+//        assert addressMe.getSuffix().equals("B");
+//        assert addressMe.getCity().equals("Some Town");
+//        assert addressMe.getCountry().equals(Country.NETHERLANDS);
+//
+//        setUpData.address = new AddressImpl("dummyFromSuperInterface", "Other Street", 12, "A", "Utrecht", Country.NETHERLANDS);
+//
+//        final Address addressOrdina = new AddressImpl("dummyFromSuperInterface", "Ringwade", 1, null, "Nieuwegein", Country.NETHERLANDS);
+//        Company ordina = new CompanyBuilderImpl(1L, "Ordina", addressOrdina, addressOrdina, new Date(), null).build();
+//        assert ordina.getId() == 1L;
+//        assert ordina.getName().equals("Ordina");
+//
+//        final Address addressOtherCompany = new AddressImpl("dummyFromSuperInterface", "Street", 1, null, "Utrecht", Country.NETHERLANDS);
+//        Company otherCompany = ((CompanyBuilderImpl)ordina.builder()).setId(2L).setName("Yada yada").setAddress(addressOtherCompany).setPostalAddress(addressOtherCompany).build();
+//        assert otherCompany.getId() == 2L;
+//        assert otherCompany.getName().equals("Yada yada");
+//
+//        setUpData.person1 = new PersonBuilderImpl().setId(1L).setFirstName("Jan-Kees").setMiddleName("van").setLastName("Andel").setBirthDate(new Date()).setAddress(addressMe).setEmployer(ordina).build();
+//        assert setUpData.person1.getFirstName().equals("Jan-Kees");
+//
+//        setUpData.person2 = new PersonBuilderImpl().setId(2L).setFirstName("FirstName").setLastName("LastName").setBirthDate(new Date()).setAddress(setUpData.address).setEmployer(otherCompany).build();
+//        assert setUpData.person2.getFirstName().equals("FirstName");
+//
+//        P.set(setUpData.person1);
+//        setUpData.counter = new AtomicLong(0);
+//
+//        setUpData.random = new Random();
+//        return setUpData;
+        return  null;
     }
 
     public void test() {
-        ImmutableInterfaceTest xx = new ImmutableInterfaceTestImpl.Builder().id("");
+        ImmutableInterfaceTest xx = new ImmutableInterfaceTestImpl.Builder().id(4545L).build();
     }
 }
