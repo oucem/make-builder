@@ -30,13 +30,20 @@
  */
 package ${targetPackage};
 
+import net.jcip.annotations.Immutable;
+
 @javax.annotation.Generated("${generatorClass}")
 /**
  * {@inheritDoc}
 **/
+@Immutable
 public final class ${implClassSimpleName} implements ${superClassQName} {
 
-    <#list properties as property>
+    <#list required as property>
+    /* Property ${property.name} */
+    private ${property.type} ${property.name};
+    </#list>
+    <#list optional as property>
     /* Property ${property.name} */
     private ${property.type} ${property.name};
     </#list>
@@ -46,23 +53,20 @@ public final class ${implClassSimpleName} implements ${superClassQName} {
      * Builder pattern
     **/
     public static class Builder {
-        <#list properties as property>
+        <#list required as property>
+        private ${property.type} ${property.name};
+        </#list>
+        <#list optional as property>
         private ${property.type} ${property.name};
         </#list>
 
-        /**
-         * Empty default constructor
-        **/
-        public Builder() {
-            // Intentionally left empty
-        }
 
         public Builder(
-            <#list properties as property>
+            <#list required as property>
             ${property.type} ${property.name}<#if property_has_next>,</#if>
             </#list>
             ) {
-                <#list properties as property>
+                <#list required as property>
                 this.${property.name} = ${property.name};
                 </#list>
             }
@@ -74,7 +78,7 @@ public final class ${implClassSimpleName} implements ${superClassQName} {
                 return new ${implClassSimpleName}(this);
             }
 
-            <#list properties as property>
+            <#list optional as property>
             /**
              * See {@link  ${superClassQName}#${property.getter}()  ${property.getter}} documentation of the field.
              *  @param ${property.name} Value to set
@@ -87,13 +91,26 @@ public final class ${implClassSimpleName} implements ${superClassQName} {
     }
 
     private ${implClassSimpleName}(Builder builder){
-        <#list properties as property>
+        <#list required as property>
             this.${property.name} = builder.${property.name};
         </#list>
+        <#list optional as property>
+            this.${property.name} = builder.${property.name};
+        </#list>
+
     }
 
 
-    <#list properties as property>
+    <#list required as property>
+    /**
+     * {@inheritDoc}
+    **/
+    public ${property.type} ${property.getter}() {
+        return ${property.name};
+    }
+    </#list>
+
+    <#list optional as property>
     /**
      * {@inheritDoc}
     **/
