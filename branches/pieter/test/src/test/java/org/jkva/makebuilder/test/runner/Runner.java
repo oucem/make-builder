@@ -214,6 +214,8 @@ public class Runner {
     }
 
     public void test() {
-        ImmutableInterfaceTest xx = new ImmutableInterfaceTestImpl.Builder().id(4545L).build();
+        ImmutableInterfaceTest xx = new ImmutableInterfaceTestImpl //
+                .Builder(4545L) //
+                .build();
     }
 }
