@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.jkva.makebuilder</groupId>
         <artifactId>makebuilder-root</artifactId>
-        <version>1.1-JBloch</version>
+        <version>1.2-JBloch-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
