@@ -16,9 +16,7 @@
 
 package org.jkva.makebuilder.test.domain;
 
-import org.jkva.makebuilder.annotations.Immutable;
-import org.jkva.makebuilder.annotations.ImmutableObject;
-import org.jkva.makebuilder.annotations.ObjectBuilder;
+import net.jcip.annotations.Immutable;
 
 import java.util.Date;
 
@@ -29,7 +27,7 @@ import java.util.Date;
  * $Revision$
  */
 @Immutable
-public interface Person extends ImmutableObject<Person> {
+public interface Person {
     long getId();
 
     String getFirstName();
@@ -43,6 +41,4 @@ public interface Person extends ImmutableObject<Person> {
     Address getAddress();
 
     Company getEmployer();
-
-    ObjectBuilder<Person> builder();
 }

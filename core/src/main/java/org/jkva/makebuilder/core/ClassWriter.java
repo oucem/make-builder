@@ -31,18 +31,9 @@ public interface ClassWriter {
     /**
      * Generate a valid implementation Java source file for the given immutable type.
      *
-     * @param superClassInfo The superclass metadata.
-     * @param properties The properties that needs getters and setters.
+     * @param metaData The Cass metadata.
      * @param processingEnv The current processing environment.
      */
-    void generateImpl(SuperClassInfo superClassInfo, ClassProperty[] properties, ProcessingEnvironment processingEnv);
+    void generateBuilder(ClassMetaData metaData, ProcessingEnvironment processingEnv);
 
-    /**
-     * Generate a valid implementation Java source file for the given immutable type.
-     *
-     * @param superClassInfo The superclass metadata.
-     * @param properties The properties that needs getters and setters.
-     * @param processingEnv The current processing environment.
-     */
-    void generateBuilder(SuperClassInfo superClassInfo, ClassProperty[] properties, ProcessingEnvironment processingEnv);
 }
