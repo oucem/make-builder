@@ -21,7 +21,7 @@
 
     <groupId>org.jkva.makebuilder</groupId>
     <artifactId>makebuilder-root</artifactId>
-    <version>1.1-JBloch</version>
+    <version>1.2-JBloch-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -122,8 +122,8 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:svn:http://make-builder.googlecode.com/svn/tags/makebuilder-root-1.1-JBloch</connection>
-        <developerConnection>scm:svn:https://make-builder.googlecode.com/svn/tags/makebuilder-root-1.1-JBloch</developerConnection>
+        <connection>scm:svn:http://make-builder.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://make-builder.googlecode.com/svn/trunk</developerConnection>
     </scm>
 
 </project>
