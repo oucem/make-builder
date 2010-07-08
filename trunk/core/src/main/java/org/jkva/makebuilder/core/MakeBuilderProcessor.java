@@ -55,7 +55,7 @@ public class MakeBuilderProcessor extends AbstractProcessor {
      */
     public static final String JCIP_IMMUTABLE = "net.jcip.annotations.Immutable";
 
-    private FancyFeaturesHelper fancyFeaturesHelper;
+//    private FancyFeaturesHelper fancyFeaturesHelper;
 
     /**
      * Default constructor, used in production.
@@ -79,10 +79,10 @@ public class MakeBuilderProcessor extends AbstractProcessor {
     @Override
     public void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        System.out.println("processingEnv = " + processingEnv);
-        if (processingEnv instanceof JavacProcessingEnvironment) {
-            fancyFeaturesHelper = new SunFancyFeaturesHelper((JavacProcessingEnvironment) processingEnv);
-        }
+//        System.out.println("processingEnv = " + processingEnv);
+//        if (processingEnv instanceof JavacProcessingEnvironment) {
+//            fancyFeaturesHelper = new SunFancyFeaturesHelper((JavacProcessingEnvironment) processingEnv);
+//        }
     }
 
     /** {@inheritDoc} */
@@ -151,7 +151,8 @@ public class MakeBuilderProcessor extends AbstractProcessor {
             classWriter.generateImpl(classMetaData.getSuperClassInfo(), classMetaData.getProperties(), processingEnv);
             classWriter.generateBuilder(classMetaData.getSuperClassInfo(), classMetaData.getProperties(), processingEnv);
         } else {
-            fancyFeaturesHelper.addMethod(new GeneratedMethod(), element);
+//            fancyFeaturesHelper.addMethod(new GeneratedMethod(), element);
+            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Only interfaces are supported in this version of MakeBuilder");
         }
     }
 
