@@ -16,7 +16,8 @@
 
 package org.jkva.makebuilder.test.domain;
 
-import org.jkva.makebuilder.annotations.Immutable;
+import net.jcip.annotations.Immutable;
+
 
 /**
  * This super interface is used to test type hierarchies.
@@ -24,7 +25,7 @@ import org.jkva.makebuilder.annotations.Immutable;
  * $Author$
  * $Revision$
  */
-@Immutable(generateBuilder = false)
+@Immutable
 public interface SuperInterface {
     String getSomething();
 }

@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.jkva.makebuilder</groupId>
         <artifactId>makebuilder-root</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -63,33 +63,9 @@
                         <s>${basedir}/target/generated-sources/builder</s>
                     </compilerArguments>
                 </configuration>
-                <!--<dependencies>-->
-                    <!--<dependency>-->
-                        <!--<groupId>org.jkva.runnerupId>-->
-                        <!--<artifactId>runner-core</artifactId>-->
-                        <!--<version>${parent.version}</version>-->
-                        <!--<scope>compile</scope>-->
-                    <!--</dependency>-->
-                <!--</dependencies>-->
             </plugin>
         </plugins>
     </build>
-
-    <!--<profiles>-->
-        <!--<profile>-->
-            <!--<id>generate-builders</id>-->
-            <!--&lt;!&ndash;<dependencyManagement>&ndash;&gt;-->
-                <!--<dependencies>-->
-                    <!--<dependency>-->
-                        <!--<groupId>org.jkva.runnerupId>-->
-                        <!--<artifactId>runner-core</artifactId>-->
-                        <!--<version>${parent.version}</version>-->
-                        <!--<scope>compile</scope>-->
-                    <!--</dependency>-->
-                <!--</dependencies>-->
-            <!--&lt;!&ndash;</dependencyManagement>&ndash;&gt;-->
-        <!--</profile>-->
-    <!--</profiles>-->
 
     <dependencies>
         <dependency>
@@ -113,6 +89,11 @@
             <groupId>net.jcip</groupId>
             <artifactId>jcip-annotations</artifactId>
             <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
 </project>

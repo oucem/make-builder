@@ -16,7 +16,8 @@
 
 package org.jkva.makebuilder.core;
 
-import org.jkva.makebuilder.annotations.Immutable;
+import net.jcip.annotations.Immutable;
+import org.jkva.makebuilder.annotations.Required;
 
 import javax.lang.model.element.*;
 import javax.lang.model.type.DeclaredType;
@@ -31,7 +32,7 @@ import java.util.Set;
 
 /**
  * Default implementation of {ClassParser}.
- *
+ * <p/>
  * $Author$
  * $Revision$
  */
@@ -74,7 +75,7 @@ public class DefaultClassParserImpl implements ClassParser {
             return null;
         }
     };
-    private static final SimpleTypeVisitor6<Boolean,Object> IMMUTABLE_VISITOR = new SimpleTypeVisitor6<Boolean, Object>() {
+    private static final SimpleTypeVisitor6<Boolean, Object> IMMUTABLE_VISITOR = new SimpleTypeVisitor6<Boolean, Object>() {
         @Override
         public Boolean visitDeclared(final DeclaredType t, final Object o) {
             final Immutable immutable = t.asElement().getAnnotation(Immutable.class);
@@ -96,7 +97,7 @@ public class DefaultClassParserImpl implements ClassParser {
     @Override
     public ClassMetaData readMetaData(TypeElement element) {
         final SuperClassInfo superClassInfo = determineSuperClass(element);
-        final ClassProperty[] properties = listProperties(element);
+        final ClassProperty[] properties = listOptionalProperties(element);
         final boolean isInterface = isInterface(element);
 
         return new ClassMetaData(superClassInfo, properties, isInterface);
@@ -135,7 +136,7 @@ public class DefaultClassParserImpl implements ClassParser {
      * @param element The element for which the properties must be listed.
      * @return An array of {ClassProperty}s.
      */
-    ClassProperty[] listProperties(final TypeElement element) {
+    ClassProperty[] listOptionalProperties(final TypeElement element) {
         List<TypeElement> hierarchy = createTypeHierarchy(element);
         Set<ClassProperty> ret = processTypeHierarchy(hierarchy);
         return ret.toArray(new ClassProperty[ret.size()]);
@@ -152,7 +153,6 @@ public class DefaultClassParserImpl implements ClassParser {
 
         final List<? extends TypeMirror> interfaces = element.getInterfaces();
         for (final TypeMirror interfaze : interfaces) {
-            // Only include super interface if it's marked with {Immutable}.
             final Boolean includeSuperInterface = interfaze.accept(IMMUTABLE_VISITOR, null);
 
             if (includeSuperInterface != null && includeSuperInterface) {
@@ -190,7 +190,7 @@ public class DefaultClassParserImpl implements ClassParser {
                         classProperty.type = method.asType().accept(GET_RETURNTYPE_VISITOR, null);
                         classProperty.getter = methodName;
                         classProperty.setter = setter;
-
+                        classProperty.required = (method.getAnnotation(Required.class) != null);
                         properties.add(classProperty);
                     }
                 }
