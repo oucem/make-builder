@@ -13,12 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.jkva.makebuilder.test.domain;
 
-package org.jkva.makebuilder.core;
+import net.jcip.annotations.Immutable;
+import org.jkva.makebuilder.annotations.Required;
+
 
 /**
- * $Author$
- * $Revision$
+ *
+ *
+ * $Author $
+ * $Revision $
  */
-class BuilderClass {
+@Immutable
+public interface ImmutableInterfaceTest {
+    /**
+     * This value represents the ID of the thingy.
+     */
+    @Required
+    long getId();
+
+    String getName();
+
 }

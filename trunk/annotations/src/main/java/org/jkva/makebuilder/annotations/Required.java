@@ -13,21 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.jkva.makebuilder.annotations;
 
-package org.jkva.makebuilder.core;
+import java.lang.annotation.*;
 
-/**
- * Common attributes for MakeBuilder.
- *
- * $Author$
- * $Revision$
- */
-class MBAttributes {
-
-    /**
-     * The attribute name used to specify the package to put the generated classes.
-     * <p/>
-     * This constant defines the name of a compiler option passed to the processor.
-     */
-    public static final String TARGET_PACKAGE_ATTR = "org.jkva.makebuilder.TARGET_PACKAGE";
+@Retention(RetentionPolicy.RUNTIME)
+@Target(java.lang.annotation.ElementType.METHOD)
+@Documented
+@Inherited
+public @interface Required {
 }

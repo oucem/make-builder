@@ -16,8 +16,6 @@
 
 package org.jkva.makebuilder.core;
 
-import org.jkva.makebuilder.annotations.Immutable;
-
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
@@ -29,13 +27,13 @@ import java.util.Set;
 /**
  * Annotation processor for {Immutable} classes. For classes annotated with
  * {Immutable}, a Builder will be generated.
- *
+ * <p/>
  * This class is used to bootstrap the generation process.
- *
+ * <p/>
  * $Author$
  * $Revision$
  */
-@SupportedAnnotationTypes({"org.jkva.makebuilder.annotations.Immutable", MakeBuilderProcessor.JCIP_IMMUTABLE})
+@SupportedAnnotationTypes({MakeBuilderProcessor.JCIP_IMMUTABLE})
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class MakeBuilderProcessor extends AbstractProcessor {
 
@@ -50,16 +48,22 @@ public class MakeBuilderProcessor extends AbstractProcessor {
     private final ClassWriter classWriter;
 
     /**
-     * The name of the Java Concurrency in Practice type that
-     * defines the Immutable annotation.
+     * The name of the Java Concurrency in Practice Immutable annotation.
      */
     public static final String JCIP_IMMUTABLE = "net.jcip.annotations.Immutable";
+
+    /**
+     * The name of the annotation that marks a generated
+     */
+    public static final String GENERATED = "javax.annotation.Generated";
 
 //    private FancyFeaturesHelper fancyFeaturesHelper;
 
     /**
      * Default constructor, used in production.
      */
+    // Suppress, because it's used by APT.
+    @SuppressWarnings({"UnusedDeclaration"})
     public MakeBuilderProcessor() {
         classParser = new DefaultClassParserImpl();
         classWriter = new FreeMarkerClassWriterImpl();
@@ -85,9 +89,12 @@ public class MakeBuilderProcessor extends AbstractProcessor {
 //        }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean process(final Set<? extends TypeElement> annotations, final RoundEnvironment env) {
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "1");
         for (final TypeElement type : annotations) {
             for (final Element element : env.getElementsAnnotatedWith(type)) {
                 if (shouldProcessType(element)) {
@@ -105,16 +112,27 @@ public class MakeBuilderProcessor extends AbstractProcessor {
      * @return <code>true</code> if this element should be processed, <code>false</code> otherwise.
      */
     private boolean shouldProcessType(Element element) {
-        final Immutable immutable = element.getAnnotation(Immutable.class);
-        if (immutable != null && immutable.generateBuilder()) {
-            return true;
+        if (isGeneratedType(element)) {
+            return false;
         }
-
         if (jcipAnnotationsOnType(element)) {
             return true;
         }
-
         return false;
+    }
+
+    private boolean isGeneratedType(Element element) {
+        try {
+            @SuppressWarnings({"unchecked"}) Class<? extends Annotation> generatedClass =
+                    (Class<? extends Annotation>) Class.forName(GENERATED);
+
+            return element.getAnnotation(generatedClass) != null;
+        } catch (Exception e) {
+            processingEnv.getMessager().printMessage(
+                    Diagnostic.Kind.ERROR,
+                    "Generated annotations are not processed. Reason: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -141,19 +159,19 @@ public class MakeBuilderProcessor extends AbstractProcessor {
     /**
      * Generate code for the given element.
      *
-     * @param element The element for which the code must be generated.
+     * @param element       The element for which the code must be generated.
      * @param processingEnv The global processing environment.
      */
     private void generate(final TypeElement element, final ProcessingEnvironment processingEnv) {
         ClassMetaData classMetaData = classParser.readMetaData(element);
 
         if (classMetaData.isInterface()) {
-            classWriter.generateImpl(classMetaData.getSuperClassInfo(), classMetaData.getProperties(), processingEnv);
-            classWriter.generateBuilder(classMetaData.getSuperClassInfo(), classMetaData.getProperties(), processingEnv);
+            classWriter.generateBuilder(classMetaData, processingEnv);
         } else {
-//            fancyFeaturesHelper.addMethod(new GeneratedMethod(), element);
-            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Only interfaces are supported in this version of MakeBuilder");
+            processingEnv.getMessager().printMessage(
+                    Diagnostic.Kind.ERROR,
+                    "Skipped element: " + classMetaData.getSuperClassInfo().qualifiedName + " is not an interface");
         }
-    }
 
+    }
 }
