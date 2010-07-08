@@ -16,15 +16,15 @@
 
 package org.jkva.makebuilder.core;
 
-import com.sun.tools.javac.processing.JavacProcessingEnvironment;
 import org.jkva.makebuilder.annotations.Immutable;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.*;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.Set;
 
 /**
  * Annotation processor for {Immutable} classes. For classes annotated with
